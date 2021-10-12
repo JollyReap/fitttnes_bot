@@ -25,7 +25,6 @@ class HealthSpider(scrapy.Spider):
         loader.add_xpath('fats', '//td[(((count(preceding-sibling::*) + 1) = 4) and parent::*)]/text()')
         loader.add_xpath('carbohydrates','//td[(((count(preceding-sibling::*) + 1) = 5) and parent::*)]/text()')
         loader.add_xpath('name_link','//h1/text()')
-
         yield loader.load_item()
         # for name_links in name_link:
         #     name_links = name_links.split(' ')
