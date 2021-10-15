@@ -10,3 +10,6 @@ async def bot_start(message: types.Message):
     await message.answer(f"Привет, {message.from_user.full_name}!\n"
                          f"Ты работаешь с проэктным ботом по информатике",
                          reply_markup=menu)
+
+
+
