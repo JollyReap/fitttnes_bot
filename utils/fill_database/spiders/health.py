@@ -17,14 +17,12 @@ class HealthSpider(scrapy.Spider):
             yield response.follow("https://health-diet.ru/base_of_food/food_24507/", callback=self.parse_kategories)
 
     def parse_kategories(self, response, **kwargs):
-        tr_blocks = response.xpath('//tr')
-        for items in tr_blocks:
-            var = 0
-            product = items.xpath('//td/a/text()')[-1].extract()
-            calories = items.xpath('//td[@class="uk-text-right"]/text()')[var].extract()
-
-
-            yield {
-                    'pr': calories
-                }
-        var += 1
+        tbody = response.xpath('//tbody/tr').extract()
+        # for body in tbody:
+        #     link = body.xpath('/td[0]/a/@href/text()').extract()
+        #     yield {
+        #         's': link
+        #     }
+        yield {
+            's': tbody
+        }
