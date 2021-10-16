@@ -19,8 +19,7 @@ NEWSPIDER_MODULE = 'fill_database.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
-FEED_FORMAT = 'csv'
-FEED_URI = 'test.csv'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
