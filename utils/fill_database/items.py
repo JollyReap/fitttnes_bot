@@ -17,7 +17,7 @@ def add_n(text: str) -> str:
 
 def change_text(text: str) -> str:
     try:
-        text = text.split()
+        text = text.replace(' ', '').replace('\n', '-')
     except ValueError as err:
         print(err)
     return text
