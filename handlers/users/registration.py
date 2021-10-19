@@ -49,6 +49,5 @@ async def finaly(message: types.Message, state: FSMContext):
     nickname = message.text
     await message.answer('Вот ваши данные, советуем занести их в избранные!\n'
                          f'Ваш email: {email}\n'
-                         f'Ваш пароль: {password}\n'
                          f'Ваше имя пользователя: {nickname}')
     await state.finish()
