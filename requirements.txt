@@ -3,3 +3,4 @@ Scrapy~=2.5.0
 itemloaders~=1.0.4
 itemadapter~=0.4.0
 aiogram~=2.15
+aioredis~=2.0.0
