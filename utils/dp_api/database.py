@@ -1,10 +1,9 @@
 
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from . import models
 from .models import Users
-from sqlalchemy import update
+
 
 
 class Database:
@@ -31,4 +30,5 @@ class Database:
             session.rollback()
         finally:
             session.close()
+
 
