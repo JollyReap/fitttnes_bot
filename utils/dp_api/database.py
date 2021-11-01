@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from . import models
-from .models import Users, HealthDiet
+from .models import Users
 from sqlalchemy import update
 
 
@@ -13,3 +13,10 @@ class Database:
         models.Base.metadata.create_all(bind=engine)
         self.maker = sessionmaker(bind=engine)
         self.connection = engine.connect()
+
+    def get_or_create(self, session, model, filter_field, data):
+        instance = session.query(model).filter_by(**{filter_field: data[filter_field]}).first()
+        if not instance:
+            instance = model(**data)
+        return instance
+
