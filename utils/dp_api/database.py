@@ -20,3 +20,15 @@ class Database:
             instance = model(**data)
         return instance
 
+    def add_registration_info(self, data, model, filter_field):
+        session = self.maker()
+        info = self.get_or_create(session, model, filter_field, data)
+        session.add(info)
+        try:
+            session.commit()
+        except Exception as err:
+            print(err)
+            session.rollback()
+        finally:
+            session.close()
+
