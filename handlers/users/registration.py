@@ -1,10 +1,10 @@
 import validators
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-
+from utils.dp_api.models import Users
 from keyboards.default.menu import menu
 from keyboards.default.stop_autorise import stop
-from loader import dp
+from loader import dp, db
 from states.registration_states import Regisistration
 
 
@@ -20,7 +20,9 @@ async def get_email(message: types.Message):
     await message.answer('Отлично!')
     await message.answer('Ведите ваш email📧',
                          reply_markup=stop)
+    print(type(message.from_user.id))
     await Regisistration.nickname_registration.set()
+
 
 
 @dp.message_handler(state=Regisistration.nickname_registration)
@@ -47,7 +49,12 @@ async def finaly(message: types.Message, state: FSMContext):
     email = data.get('email')
     password = data.get('password')
     nickname = message.text
-    await message.answer('Вот ваши данные, советуем занести их в избранные!\n'
-                         f'Ваш email: {email}\n'
-                         f'Ваше имя пользователя: {nickname}')
+    tg_id = str(message.from_user.id)
+    dict_id = {'tg_id': tg_id,
+               'email': email,
+               'nickname': nickname}
+
+    db.add_registration_info(data=dict_id, model=Users, filter_field='tg_id')
+    await message.answer('Спасибо за регистрацию!',
+                         reply_markup=menu)
     await state.finish()
