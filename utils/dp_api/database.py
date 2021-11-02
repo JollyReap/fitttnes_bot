@@ -3,12 +3,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from . import models
 from .models import Users
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 
 
 class Database:
-    def __init__(self, db_url='sqlite:///database.sqlite'):
+    def __init__(self, db_url):
         engine = create_engine(db_url, pool_pre_ping=True)
         models.Base.metadata.create_all(bind=engine)
         self.maker = sessionmaker(bind=engine)
@@ -34,6 +34,18 @@ class Database:
 
     def select_user(self, user_id):
         usr = select(Users).where(Users.tg_id == user_id)
+
+    def delete_usr(self, user_id):
+        session = self.maker()
+        obj = session.query(Users).filter_by(tg_id=user_id).one()
+        session.delete(obj)
+        try:
+            session.commit()
+        except Exception as err:
+            print(err)
+            session.rollback()
+        finally:
+            session.close()
 
 
 
