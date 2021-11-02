@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from . import models
 from .models import Users
+from sqlalchemy import select
 
 
 
@@ -30,5 +31,10 @@ class Database:
             session.rollback()
         finally:
             session.close()
+
+    def select_user(self, user_id):
+        usr = select(Users).where(Users.tg_id == user_id)
+
+
 
 
