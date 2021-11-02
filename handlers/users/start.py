@@ -7,8 +7,7 @@ from loader import dp
 
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
-    await message.answer(f"Привет, {message.from_user.full_name}!\n"
-                         f"Ты работаешь с проэктным ботом по информатике",
+    await message.answer(f"Привет, {message.from_user.full_name}!\n",
                          reply_markup=menu)
 
 
