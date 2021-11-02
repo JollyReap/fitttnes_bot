@@ -6,6 +6,7 @@ from keyboards.default.menu import menu
 from keyboards.default.stop_autorise import stop
 from loader import dp, db
 from states.registration_states import Regisistration
+from keyboards.default.del_acc import account
 
 
 @dp.message_handler(text="❌Остановить регистрацию❌", state='*')
@@ -17,12 +18,15 @@ async def stop_autorise(call: types.Message, state: FSMContext):
 
 @dp.message_handler(text="Пройти регистрацию🌐")
 async def get_email(message: types.Message):
-    await message.answer('Отлично!')
-    await message.answer('Ведите ваш email📧',
-                         reply_markup=stop)
-    print(type(message.from_user.id))
-    await Regisistration.nickname_registration.set()
-
+    if db.select_user(message.from_user.id):
+        await message.answer('Отлично!')
+        await message.answer('Ведите ваш email📧',
+                             reply_markup=stop)
+        await Regisistration.nickname_registration.set()
+    else:
+        await message.answer('Вы уже есть в базе!\n'
+                             'Вы хотите удалить своего пользователя?',
+                             reply_markup=account)
 
 
 @dp.message_handler(state=Regisistration.nickname_registration)
