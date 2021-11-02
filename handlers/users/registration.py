@@ -16,6 +16,20 @@ async def stop_autorise(call: types.Message, state: FSMContext):
     await state.finish()
 
 
+@dp.message_handler(text="☠Удалить аккаунт☠")
+async def delete_account(message: types.Message, state: FSMContext):
+    # tg_id = (message.from_user.id)
+    await message.answer('Удаляю тебя из бд...')
+    db.delete_usr(message.from_user.id)
+    if db.select_user(message.from_user.id):
+        await message.answer('Чёт не удаляется, секу...')
+        db.delete_usr(message.from_user.id)
+    else:
+        await message.answer('Жаль что уходишь, но надеюсь не на долго😔',
+                             reply_markup=menu)
+        await state.finish()
+
+
 @dp.message_handler(text="Пройти регистрацию🌐")
 async def get_email(message: types.Message):
     if db.select_user(message.from_user.id):
