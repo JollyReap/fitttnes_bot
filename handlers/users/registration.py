@@ -16,6 +16,12 @@ async def stop_autorise(call: types.Message, state: FSMContext):
     await state.finish()
 
 
+@dp.message_handler(text="🙌А не-не-не, тупанул, оставляй🙌")
+async def leave_user(message: types.Message,  state: FSMContext):
+    await message.answer('Да усё, без наезда, оставляю я тебя',
+                         reply_markup=menu)
+
+
 @dp.message_handler(text="☠Удалить аккаунт☠")
 async def delete_account(message: types.Message, state: FSMContext):
     # tg_id = (message.from_user.id)
@@ -27,20 +33,21 @@ async def delete_account(message: types.Message, state: FSMContext):
     else:
         await message.answer('Жаль что уходишь, но надеюсь не на долго😔',
                              reply_markup=menu)
-        await state.finish()
 
 
 @dp.message_handler(text="Пройти регистрацию🌐")
 async def get_email(message: types.Message):
-    if db.select_user(message.from_user.id):
+    tg_id = str(message.from_user.id)
+    print(type(db.select_user(tg_id)))
+    if db.select_user(tg_id):
+        await message.answer('Вы уже есть в базе!\n'
+                             'Вы хотите удалить своего пользователя?',
+                             reply_markup=account)
+    else:
         await message.answer('Отлично!')
         await message.answer('Ведите ваш email📧',
                              reply_markup=stop)
         await Regisistration.nickname_registration.set()
-    else:
-        await message.answer('Вы уже есть в базе!\n'
-                             'Вы хотите удалить своего пользователя?',
-                             reply_markup=account)
 
 
 @dp.message_handler(state=Regisistration.nickname_registration)
