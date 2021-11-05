@@ -1,6 +1,6 @@
 import scrapy
-from ..loaders import HealthLoader
-
+from ..items import FillDatabaseItem
+from scrapy.loader import ItemLoader
 
 class HealthSpider(scrapy.Spider):
     name = 'health'
@@ -17,14 +17,21 @@ class HealthSpider(scrapy.Spider):
             yield response.follow("https://health-diet.ru/base_of_food/food_24507/", callback=self.parse_kategories)
 
     def parse_kategories(self, response, **kwargs):
-        tr_blocks = response.xpath('//tr')
-        for items in tr_blocks:
-            var = 0
-            product = items.xpath('//td/a/text()')[-1].extract()
-            calories = items.xpath('//td[@class="uk-text-right"]/text()')[var].extract()
+        loader = ItemLoader(item=FillDatabaseItem())
+        name = response.xpath('//td[1]/a/text()').extract()
+        call = response.xpath('//td[2]/text()').extract()
+        proteins = response.xpath('//td[2]/text()').extract()
+        fats = response.xpath('//td[3]/text()').extract()
+        carboh = response.xpath('//td[4]/text()').extract()
+        params = {
+            'name': name,
+            "call": call,
+            "proteins": proteins,
+            "fats": fats,
+            "carboh": carboh
+        }
+        for key, value in params.items():
+            loader.add_value(key, value)
+        yield loader.load_item()
 
 
-            yield {
-                    'pr': calories
-                }
-        var += 1
