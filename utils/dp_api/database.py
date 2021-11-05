@@ -6,7 +6,6 @@ from .models import Users
 from sqlalchemy import select, delete
 
 
-
 class Database:
     def __init__(self, db_url):
         engine = create_engine(db_url, pool_pre_ping=True)
@@ -33,7 +32,10 @@ class Database:
             session.close()
 
     def select_user(self, user_id):
-        usr = select(Users).where(Users.tg_id == user_id)
+        session = self.maker()
+        usr = session.execute(select(Users.tg_id).where(Users.tg_id == user_id)
+                              ).first()
+        return usr
 
     def delete_usr(self, user_id):
         session = self.maker()
