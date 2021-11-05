@@ -7,9 +7,6 @@ menu = ReplyKeyboardMarkup(
         ],
         [
             KeyboardButton(text='Информация о боте📖')
-        ],
-        [
-            KeyboardButton(text='Расчитать ИМТ♎')
         ]
     ],
     resize_keyboard=True,
