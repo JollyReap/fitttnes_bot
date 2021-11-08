@@ -22,7 +22,7 @@ async def leave_user(message: types.Message,  state: FSMContext):
                          reply_markup=menu)
 
 
-@dp.message_handler(text="☠Удалить аккаунт☠")
+@dp.message_handler(text="☠Удалить аккаунт☠", state='*')
 async def delete_account(message: types.Message, state: FSMContext):
     # tg_id = (message.from_user.id)
     await message.answer('Удаляю тебя из бд...')
@@ -38,8 +38,7 @@ async def delete_account(message: types.Message, state: FSMContext):
 @dp.message_handler(text="Пройти регистрацию🌐")
 async def get_email(message: types.Message):
     tg_id = str(message.from_user.id)
-    print(type(db.select_user(tg_id)))
-    if db.select_user(tg_id):
+    if db.select_user(message.from_user.id):
         await message.answer('Вы уже есть в базе!\n'
                              'Вы хотите удалить своего пользователя?',
                              reply_markup=account)
