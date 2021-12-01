@@ -41,8 +41,8 @@ async def get_email(message: types.Message):
                              'Вы хотите удалить своего пользователя?',
                              reply_markup=account)
     else:
-        await message.answer('Отлично!')
-        await message.answer('Ведите ваш email📧',
+        await message.answer('Отлично!\n'
+                             'Ведите ваш email📧',
                              reply_markup=stop)
         await Regisistration.nickname_registration.set()
 
@@ -79,5 +79,3 @@ async def finaly(message: types.Message, state: FSMContext):
     await message.answer('Спасибо за регистрацию!',
                          reply_markup=menu)
     await state.finish()
-
-
