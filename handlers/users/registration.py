@@ -17,14 +17,13 @@ async def stop_autorise(call: types.Message, state: FSMContext):
 
 
 @dp.message_handler(text="🙌А не-не-не, тупанул, оставляй🙌")
-async def leave_user(message: types.Message,  state: FSMContext):
+async def leave_user(message: types.Message):
     await message.answer('Да усё, без наезда, оставляю я тебя',
                          reply_markup=menu)
 
 
 @dp.message_handler(text="☠Удалить аккаунт☠", state='*')
-async def delete_account(message: types.Message, state: FSMContext):
-    # tg_id = (message.from_user.id)
+async def delete_account(message: types.Message):
     await message.answer('Удаляю тебя из бд...')
     db.delete_usr(message.from_user.id)
     if db.select_user(message.from_user.id):
@@ -37,7 +36,6 @@ async def delete_account(message: types.Message, state: FSMContext):
 
 @dp.message_handler(text="Пройти регистрацию🌐")
 async def get_email(message: types.Message):
-    tg_id = str(message.from_user.id)
     if db.select_user(message.from_user.id):
         await message.answer('Вы уже есть в базе!\n'
                              'Вы хотите удалить своего пользователя?',
@@ -71,7 +69,6 @@ async def create_nickname(message: types.Message, state: FSMContext):
 async def finaly(message: types.Message, state: FSMContext):
     data = await state.get_data()
     email = data.get('email')
-    password = data.get('password')
     nickname = message.text
     tg_id = str(message.from_user.id)
     dict_id = {'tg_id': tg_id,
@@ -82,3 +79,5 @@ async def finaly(message: types.Message, state: FSMContext):
     await message.answer('Спасибо за регистрацию!',
                          reply_markup=menu)
     await state.finish()
+
+
