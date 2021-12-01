@@ -1,7 +1,8 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from loader import dp, db
-from keyboards.default.menu import menu
+from keyboards.default.reg_from_food_diary import registration
+from keyboards.default.reg_button import button
 
 
 @dp.message_handler(text='Дневник питания📔')
@@ -13,4 +14,4 @@ async def check_status(message: types.Message):
 
     else:
         await message.answer('Тебе надо зарегестрироваться чтобы вести дневник!\n'
-                             'Хочешь сделать это сейчас?')
+                             'Хочешь сделать это сейчас?', reply_markup=button)
