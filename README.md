@@ -33,4 +33,4 @@ Linux:
 
 <code>python3 app.py</code>
 
-<h1><b>Good Luck!</b>></h1>
+<h1><b>Good Luck!</b></h1>
