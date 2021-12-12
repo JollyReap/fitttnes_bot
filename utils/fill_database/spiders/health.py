@@ -1,6 +1,11 @@
 import scrapy
-from ..items import FillDatabaseItem
 from scrapy.loader import ItemLoader
+from ..items import FillDatabaseItem
+from ...dp_api.database import Database
+from ...dp_api import models
+
+orm_database = Database('sqlite:///test.db')
+
 
 class HealthSpider(scrapy.Spider):
     name = 'health'
@@ -32,6 +37,8 @@ class HealthSpider(scrapy.Spider):
         }
         for key, value in params.items():
             loader.add_value(key, value)
-        yield loader.load_item()
+        product = loader.load_item()
+        Database.add_unique_record(product, models.Products, 'product_id')
+
 
 
