@@ -27,10 +27,10 @@ async def delete_account(message: types.Message):
     await message.answer('Удаляю тебя из бд...')
     db.delete_usr(message.from_user.id)
     if db.select_user(message.from_user.id):
-        await message.answer('Чёт не удаляется, секу...')
+        await message.answer('Что-то не так...')
         db.delete_usr(message.from_user.id)
     else:
-        await message.answer('Жаль что уходишь, но надеюсь не на долго😔',
+        await message.answer('Спасибо за пользование нашим чат-ботом.',
                              reply_markup=menu)
 
 
