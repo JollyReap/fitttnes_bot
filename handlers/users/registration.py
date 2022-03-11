@@ -16,7 +16,7 @@ async def stop_autorise(call: types.Message, state: FSMContext):
     await state.finish()
 
 
-@dp.message_handler(text="🙌А не-не-не, тупанул, оставляй🙌")
+@dp.message_handler(text="🙌Оставляй🙌")
 async def leave_user(message: types.Message):
     await message.answer('Да усё, без наезда, оставляю я тебя',
                          reply_markup=menu)
